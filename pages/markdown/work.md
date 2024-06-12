@@ -1,4 +1,5 @@
 ---
+id: 1
 title: Senior Software Engineer
 company: ByteDance
 date: Feb 2024 - Present
@@ -10,6 +11,7 @@ highlights:
   - In charge in 3 tech initiatives (tech assessment, development, monitoring) within the span of less than 1 year of work.
 ---
 ---
+id: 2
 title: Software Engineer 
 company: GoTo Group
 date: Feb 2024 - Present
@@ -21,6 +23,7 @@ highlights:
 - In charge in 3 tech initiatives (tech assessment, development, monitoring) within the span of less than 1 year of work.
 ---
 ---
+id: 3
 title: Software Engineer Intern
 company: Tiket.com
 date: Feb 2024 - Present
