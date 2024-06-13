@@ -8,7 +8,6 @@ interface LinkItem {
 }
 
 interface NavProps {
-  isToggled: boolean;
   toggleTFProp: () => void;
 }
 
@@ -64,8 +63,7 @@ const Nav: React.FC<NavProps> = (props) => {
   return (
     <nav className="md:mb-5 md:mb-0 ">
       <ul
-        className={`md:flex flex-col md:flex-row justify-between items-center px-5 py-2  
-        ${props.isToggled ? "hidden" : ""}`}
+        className={`md:flex flex-col md:flex-row justify-between items-center px-5 py-2`}
       >
         <li className="flex justify-between">
           <Link href="/">

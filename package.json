@@ -1,11 +1,13 @@
 {
   "private": true,
+  "homepage": "https://nurrizkyimani.github.io",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "deploy": "gh-pages -d out"
+    "predeploy": "npm run build",
+    "deploy": "npm run build && npm run export && gh-pages -d out"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -19,9 +21,9 @@
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
     "autoprefixer": "^10.4.12",
+    "gh-pages": "^4.0.0",
     "postcss": "^8.4.18",
     "tailwindcss": "^3.2.4",
-    "typescript": "4.9.4",
-    "gh-pages": "^4.0.0"
+    "typescript": "4.9.4"
   }
 }

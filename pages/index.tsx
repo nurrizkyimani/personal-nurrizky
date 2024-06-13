@@ -1,10 +1,16 @@
 import { GetStaticProps } from 'next';
+import { useState } from 'react';
 import Head from 'next/head';
 import React from 'react';
 import matter from 'gray-matter';
 import fs from 'fs';
 import path from 'path';
-import socialMediaLink from '../hooks/useMediaLink.tsx';
+import socialMediaLink from "../hooks/useMediaLink";
+import useNavbarLink from "../hooks/navbar-hooks";
+import useMenuLink from "../hooks/menu-hooks";
+import Nav from "../components/nav";
+import CloseButton from "../components/closebutton";
+
 
 
 interface Experience {
@@ -15,15 +21,16 @@ interface Experience {
 }
 
 interface Project {
-  id: int;
+  id: number;
   url_link: string; 
   title: string ;
+  emg_photo_url: string; 
   each_explanation: string[];
   tags_project: string[];
 }
 
 interface Stack {
-  id: int;
+  id: number;
   title: string;
   perlevel_stack: string[];
 }
@@ -50,9 +57,17 @@ interface HomeProps {
 }
 
 
+
 const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero }) => {
 
   const mediaLink = socialMediaLink();
+  const navbarLink = useNavbarLink();
+  const menuLink = useMenuLink();
+
+  const [isToggled, setToggled] = useState<boolean>(false);
+
+  
+  const toggleTrueFalse = () => setToggled(!isToggled);
   
   return (
     <div>
@@ -65,13 +80,74 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
       
       <main className="flex flex-col h-screen relative bg-gray-100">
 
+        <Nav toggleTFProp={() => toggleTrueFalse()} />
+
         {/*NAV BAR*/}
         
         <div className="flex-1 md:flex md:overflow-y-hidden h-screen ">
 
           {/*SIDE BAR  */}
-           
+          <div
+            className={`
+            sidebar md:w-48 mb-5 md:mb-0 flex-none md:flex 
+            flex-col divide-y px-4 pl-5  md:mt-5 
+            min-h-screen md:min-h-0 fixed z-20
+            md:static md:z-0 md:bg-gray-0 bg-gray-100
+            w-screen top-0
+            ease-linear
+            ${isToggled ? "" : "hidden"}`}
+          >
+
+            <div
+              className={`sidebar-top text-3xl md:text-base space-y-5 md:space-y-0 object-center py-10 md:py-0 `}
+            >
+              <p
+                className="self-center text-4xl font-serif flex justify-between no-underline text-center transform hover:-translate-y-1 duration-300  md:hidden
+                  "
+              >
+                "👨‍💻 👨‍🚀 👨‍🎓"
+              </p>
+
+              {menuLink.map((menu) => (
+                <a
+                  key={menu.info}
+                  href={menu.link}
+                  onClick={() => {
+                    toggleTrueFalse();
+                  }}
+                  className="icon-work flex py-2  hover:shadow-inner transition duration-300 ease-in-out hover:bg-gray-300 rounded-md p-2  "
+                >
+                  <p className="md:text-xl mr-1">{menu.icon}</p>
+                  <div className="ml-3 "> {menu.info}</div>
+                </a>
+              ))}
+
+              <ul className="flex justify-between items-center mr-3 md:hidden">
+                {navbarLink.map((link) => (
+                  <li key={link.id}>
+                    <a
+                      href=""
+                      className="inline-block text-sm px-2 py-2 hover:shadow-inner transform pl-1 leading-snug rounded-md text-gray-900  
+                      transition duration-300 ease-in-out  hover:bg-gray-300  lg:mt-0"
+                    >
+                      <div className="flex">
+                        {link.href1}
+                        <p className="text-base"> {link.label}</p>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+
+              <CloseButton
+                toggleTrueFalse={() => {
+                  toggleTrueFalse();
+                }}
+              />
+            </div>
+          </div>
           
+        
           <div className="main w-full lg:px-5 overflow-y-auto  bg-gray-100 ">
 
 
@@ -89,7 +165,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                    <p className="text-lg mb-2">{hero.p1}</p>
                  )}
 
-                 {hero.attributes && (
+                 {hero && (
                    <p className="text-lg mb-5 md:mb-12">
                      {hero.p2}
                    </p>
@@ -116,7 +192,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                      <ul className="list-none m-0 p-0">
                        {experiences &&
                          experiences.map((exp, index) => (
-                           <li key={exp.id} className="mb-4">
+                           <li key={index} className="mb-4">
                              <div className="flex mb-1 align-top content-start">
                                <div className="flex">
 
@@ -190,7 +266,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                              : ""
                          }`}
                        />
-                       <dir className="px-5 py-2 ">
+                       <div className="px-5 py-2 ">
                          <div className="flex flex-col justify-between w-full min-h-full">
                            {project && (
                              <h1 className="text-2xl">
@@ -210,7 +286,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                              </ul>
                            )}
                          </div>
-                       </dir>
+                       </div>
                      </div>
 
                      <div className="align-start pt-4 items-end px-5 pb-5">
@@ -277,16 +353,16 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                      {" "}
                      Nice to meet you{" "}
                    </h5>
-                   {about.attributes && (
+                   {about && (
                      <h1 className="text-4xl font-bold tracking-wide">
                        {" "}
                        {about.h1_title}
                      </h1>
                    )}
 
-                   {about.attributes && (
+                   {about && (
                      <h2 className="text-2xl font-normal tracking-wide pt-2  ">
-                       {about.h2_sub_title}
+                       {about.h2_subtitle}
                      </h2>
                    )}
                    <div>
@@ -380,9 +456,11 @@ export const getStaticProps: GetStaticProps = async () => {
     const parsedEntry = matter(rawEntry);
       projects.push({
         id: parsedEntry.data.id || '',
+        emg_photo_url: parsedEntry.data.emg_photo_url || '',
         url_link: parsedEntry.data.url_link || '', 
         title: parsedEntry.data.title || '',
         each_explanation: parsedEntry.data.each_explanation || [],
+        tags_project: parsedEntry.data.tags_project || [],
     });
   });
 
@@ -411,7 +489,6 @@ export const getStaticProps: GetStaticProps = async () => {
   const parsedAboutEntry = matter(fileAboutContent);
   
   const about: About =  {
-      id: parsedAboutEntry.data.id || '',
       h1_title: parsedAboutEntry.data.h1_title || '',
       h2_subtitle: parsedAboutEntry.data.h2_subtitle || '',
       p_tag: parsedAboutEntry.data.p_tag || [],
@@ -423,7 +500,6 @@ export const getStaticProps: GetStaticProps = async () => {
   const parsedHeroEntry = matter(fileHeroContent);
 
   const hero: Hero =  {
-      id: parsedHeroEntry.data.id || '',
         strong: parsedHeroEntry.data.strong || '',
         p1: parsedHeroEntry.data.p1 || '',
         p2: parsedHeroEntry.data.p2 || '',

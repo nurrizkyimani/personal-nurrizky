@@ -26,7 +26,7 @@ each_explanation:
   - Develop withdrawal automate report to increase efficiency in merchant operation team.
   - In charge in 3 tech initiatives (tech assessment, development, monitoring) within the span of less than 1 year of work.
 tags_project: 
-- golang
-- vim
+  - golang
+  - vim
 
 ---
