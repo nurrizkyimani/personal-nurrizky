@@ -17,6 +17,7 @@ interface Experience {
   title: string; 
   company: string; 
   date: string;
+  emg_photo_url: string; 
   highlights: string[];
 }
 
@@ -195,15 +196,27 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                            <li key={index} className="mb-4">
                              <div className="flex mb-1 align-top content-start">
                                <div className="flex">
+                                 <img
+                                   className="w-12 h-12 object-cover -ml-4 z-10"
+                                   src={
+                                     exp.emg_photo_url != null
+                                       ? exp.emg_photo_url
+                                       : ""
+                                   }
+                                 />
 
                                  <div className="flex flex-col">
+                                   
                                    <div className="ml-4 font-medium">
                                      {exp.title}
                                    </div>
+                                   
                                    <p className=" ml-4 text-sm ">
                                      {exp.company}
                                    </p>
+                                   
                                  </div>
+                                 
                                </div>
 
                                <div className="flex z-auto flex-col flex-1 items-end relative md:pr-5 text-right">
@@ -354,7 +367,7 @@ const Home: React.FC<HomeProps> = ({ experiences, projects, stacks, about, hero 
                      Nice to meet you{" "}
                    </h5>
                    {about && (
-                     <h1 className="text-4xl font-bold tracking-wide">
+                     <h1 className="text-4xl font-bold tracking-wide pt-2">
                        {" "}
                        {about.h1_title}
                      </h1>
@@ -442,6 +455,7 @@ export const getStaticProps: GetStaticProps = async () => {
       title: parsedEntry.data.title || '',
       company: parsedEntry.data.company || '',
       date: parsedEntry.data.date || '',
+      emg_photo_url: parsedEntry.data.emg_photo_url || '',
       highlights: parsedEntry.data.highlights || [],
     });
   });
