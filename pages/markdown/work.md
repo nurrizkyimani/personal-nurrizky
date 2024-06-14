@@ -27,7 +27,7 @@ highlights:
 id: 3
 title: Software Engineer
 company: Tiket.com
-date: Feb 2024 - Present
+date: Jul 2022 - Feb 2023
 emg_photo_url: tiket.png
 highlights:
   - Developed features in the pre-flight team, including alert, issuance, voucher, status, and check-in, achieving service excellence through code rewrite using functional and reactive programming.
